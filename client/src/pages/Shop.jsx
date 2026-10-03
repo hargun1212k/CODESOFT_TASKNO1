@@ -61,15 +61,8 @@ export default function Shop() {
           <span className="orb orb-1" />
           <span className="orb orb-2" />
           <span className="orb orb-3" />
-          <div className="hero-stat"><strong>{meta.categories.length || 5}</strong><span>categories</span></div>
         </div>
       </section>
-
-      <div className="trust">
-        <div><strong>Free shipping</strong><span>on orders over ₹999</span></div>
-        <div><strong>Secure payment</strong><span>cards via Stripe</span></div>
-        <div><strong>Easy checkout</strong><span>done in under a minute</span></div>
-      </div>
 
       <div className="chips" role="tablist" aria-label="Categories">
         <button
