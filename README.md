@@ -7,25 +7,6 @@ Browse products, filter and search, manage a shopping cart, sign in, and check o
 
 ---
 
-## Table of contents
-
-1. [Overview](#overview)
-2. [Features](#features)
-3. [Tech stack](#tech-stack)
-4. [How it works](#how-it-works)
-5. [Project structure](#project-structure)
-6. [Getting started](#getting-started)
-7. [Environment variables](#environment-variables)
-8. [Payments](#payments)
-9. [API reference](#api-reference)
-10. [Data models](#data-models)
-11. [Security notes](#security-notes)
-12. [Deployment](#deployment)
-13. [Demo mode](#demo-mode)
-14. [Roadmap](#roadmap)
-
----
-
 ## Overview
 
 ShopSphere is a complete online store. Shoppers can discover products with search and filters, add items to a cart that survives page reloads, create an account, enter a shipping address and pay. Every order is saved to MongoDB with a snapshot of what was bought, at what price, and where it ships.
@@ -125,7 +106,7 @@ flowchart LR
 
 ## Getting started
 
-**Requirements:** Node.js 18 or newer, and a MongoDB database (local install or a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster).
+**Requirements:** Node.js 18 or newer, and a MongoDB database (local install or a free MongoDB Atlas cluster).
 
 ```bash
 # 1. Clone and install both apps
@@ -191,36 +172,36 @@ Change or remove these accounts before any real deployment.
 
 ## API reference
 
-Base path: `/api`. Routes marked 🔒 need an `Authorization: Bearer <token>` header.
+Base path: `/api`. Routes marked "Login" need an `Authorization: Bearer <token>` header. Routes marked "Admin" also need a user with `isAdmin: true`.
 
 **Auth**
 
-| Method | Route | Description |
-|---|---|---|
-| POST | `/auth/register` | Create an account, returns the user and a JWT |
-| POST | `/auth/login` | Log in, returns the user and a JWT |
-| GET | `/auth/me` 🔒 | Current user |
+| Method | Route | Access | Description |
+|---|---|---|---|
+| POST | `/auth/register` | Public | Create an account, returns the user and a JWT |
+| POST | `/auth/login` | Public | Log in, returns the user and a JWT |
+| GET | `/auth/me` | Login | Current user |
 
 **Products**
 
-| Method | Route | Description |
-|---|---|---|
-| GET | `/products` | List products. Query: `search`, `category`, `brand`, `minPrice`, `maxPrice`, `minRating`, `sort` (`newest`, `price-asc`, `price-desc`, `rating`), `page`, `limit` |
-| GET | `/products/meta/filters` | Available categories, brands and price bounds |
-| GET | `/products/:id` | One product |
-| POST | `/products` 🔒 admin | Create a product |
-| PUT | `/products/:id` 🔒 admin | Update a product |
-| DELETE | `/products/:id` 🔒 admin | Delete a product |
+| Method | Route | Access | Description |
+|---|---|---|---|
+| GET | `/products` | Public | List products. Query: `search`, `category`, `brand`, `minPrice`, `maxPrice`, `minRating`, `sort` (`newest`, `price-asc`, `price-desc`, `rating`), `page`, `limit` |
+| GET | `/products/meta/filters` | Public | Available categories, brands and price bounds |
+| GET | `/products/:id` | Public | One product |
+| POST | `/products` | Admin | Create a product |
+| PUT | `/products/:id` | Admin | Update a product |
+| DELETE | `/products/:id` | Admin | Delete a product |
 
 **Orders**
 
-| Method | Route | Description |
-|---|---|---|
-| POST | `/orders` 🔒 | Create an order from `items` and `shipping` |
-| POST | `/orders/:id/pay` 🔒 | Start payment (Stripe session URL) or complete a demo payment |
-| POST | `/orders/:id/confirm` 🔒 | Verify a Stripe session after redirect |
-| GET | `/orders/mine` 🔒 | The user's orders, newest first |
-| GET | `/orders/:id` 🔒 | One of the user's orders |
+| Method | Route | Access | Description |
+|---|---|---|---|
+| POST | `/orders` | Login | Create an order from `items` and `shipping` |
+| POST | `/orders/:id/pay` | Login | Start payment (Stripe session URL) or complete a demo payment |
+| POST | `/orders/:id/confirm` | Login | Verify a Stripe session after redirect |
+| GET | `/orders/mine` | Login | The user's orders, newest first |
+| GET | `/orders/:id` | Login | One of the user's orders |
 
 **Health:** `GET /api/health` returns `{ ok: true, payments: "stripe" | "demo" }`.
 
@@ -243,8 +224,8 @@ Base path: `/api`. Routes marked 🔒 need an `Authorization: Bearer <token>` he
 
 All of these have a free tier.
 
-1. **Database.** Create a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster, allow network access, copy the connection string, and run `npm run seed` once with it in `server/.env`.
-2. **API.** On [Render](https://render.com), choose *New → Blueprint* and select this repository (it uses `render.yaml`). Set `MONGO_URI` and `CLIENT_URL`.
+1. **Database.** Create a free MongoDB Atlas cluster, allow network access, copy the connection string, and run `npm run seed` once with it in `server/.env`.
+2. **API.** On Render, choose *New → Blueprint* and select this repository (it uses `render.yaml`). Set `MONGO_URI` and `CLIENT_URL`.
 3. **Front end.** Pick one:
    - **Netlify:** import the repository (it uses `netlify.toml`) and set `VITE_API_URL` to your API address.
    - **GitLab Pages:** set `VITE_API_URL` as a CI/CD variable. The `pages` job in `.gitlab-ci.yml` publishes on every push to the default branch.
@@ -273,6 +254,16 @@ Ideas for taking this further:
 - Password reset by email
 - Rate limiting and security headers (`helmet`)
 - Automated tests for the API and key user flows
+
+## Prototype
+
+**Local link:** http://localhost:5173
+
+This address works on your own computer once the front end is running (`npm run dev:client`, or the demo mode below). Log in with `demo@shop.com` and `demo1234`.
+
+**Hosted demo:** https://hargun1212k.github.io/CODESOFT_TASKNO1/
+
+A demo-mode build of the front end with sample products. It needs no backend, and orders reset when the page reloads.
 
 ---
 
