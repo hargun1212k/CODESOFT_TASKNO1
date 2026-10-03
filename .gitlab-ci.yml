@@ -1,0 +1,29 @@
+image: node:20
+
+stages:
+  - test
+  - deploy
+
+# Syntax-check the API and make sure the React app builds on every push.
+verify:
+  stage: test
+  script:
+    - cd server && npm ci || npm install
+    - for f in $(find src -name '*.js'); do node --check "$f"; done
+    - cd ../client && npm ci || npm install
+    - npm run build
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
+# Frontend hosted free on GitLab Pages (set VITE_API_URL in Settings > CI/CD > Variables).
+pages:
+  stage: deploy
+  script:
+    - cd client && npm ci || npm install
+    - npm run build
+    - mkdir -p ../public && cp -r dist/* ../public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

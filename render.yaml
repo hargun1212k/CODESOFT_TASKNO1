@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: shopsphere-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGO_URI
+        sync: false        # paste your MongoDB Atlas connection string
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        sync: false        # your frontend URL, e.g. https://shopsphere.netlify.app
+      - key: STRIPE_SECRET_KEY
+        sync: false        # optional (sk_test_...)
