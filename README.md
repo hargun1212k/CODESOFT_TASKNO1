@@ -3,7 +3,7 @@
 **A full-stack e-commerce web app built with the MERN stack.**
 Browse products, filter and search, manage a shopping cart, sign in, and check out with Stripe or a built-in demo payment, all in a clean white and dark-blue interface.
 
-> CodeSoft Internship · Task 1: E-Commerce Website
+Task 1: E-Commerce Website
 
 ---
 
@@ -257,8 +257,6 @@ Ideas for taking this further:
 
 ## Prototype
 
-**Local link:** http://localhost:5173
-
 This address works on your own computer once the front end is running (`npm run dev:client`, or the demo mode below). Log in with `demo@shop.com` and `demo1234`.
 
 **Hosted demo:** https://hargun1212k.github.io/CODESOFT_TASKNO1/
@@ -267,4 +265,3 @@ A demo-mode build of the front end with sample products. It needs no backend, an
 
 ---
 
-Built by **Hargun** as part of the CodeSoft internship.
